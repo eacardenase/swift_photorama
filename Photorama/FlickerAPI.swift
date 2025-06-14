@@ -71,7 +71,11 @@ struct FlickrAPI {
                 from: data
             )
 
-            return .success(flickrResponse.photosInfo.photos)
+            let photos = flickrResponse.photosInfo.photos.filter {
+                $0.remoteURL != nil
+            }
+
+            return .success(photos)
         } catch {
             return .failure(error)
         }
