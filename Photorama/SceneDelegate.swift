@@ -19,9 +19,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let scene = (scene as? UIWindowScene) else { return }
         
         window = UIWindow(windowScene: scene)
-        
+
+        let photosViewController = PhotosViewController()
+        let navigationController = UINavigationController(
+            rootViewController: photosViewController
+        )
+
         window?.makeKeyAndVisible()
-        window?.rootViewController = ViewController()
+        window?.rootViewController = navigationController
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
