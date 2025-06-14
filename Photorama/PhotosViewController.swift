@@ -9,6 +9,8 @@ import UIKit
 
 class PhotosViewController: UIViewController {
 
+    var store: PhotoStore!
+
     private var imageView: UIImageView = {
         let imageView = UIImageView()
 
@@ -32,6 +34,8 @@ class PhotosViewController: UIViewController {
         super.viewDidLoad()
 
         title = "Photorama"
+
+        store.fetchInterestingPhotos()
     }
 
 }

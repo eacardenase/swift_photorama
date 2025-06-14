@@ -21,6 +21,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: scene)
 
         let photosViewController = PhotosViewController()
+        photosViewController.store = PhotoStore()
+
         let navigationController = UINavigationController(
             rootViewController: photosViewController
         )
