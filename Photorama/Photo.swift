@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Photo: Codable {
+struct Photo: Codable {
     let title: String
     let remoteURL: URL
     let photoID: String
@@ -18,12 +18,5 @@ class Photo: Codable {
         case remoteURL = "url_z"
         case photoID = "id"
         case dateTaken = "datetaken"
-    }
-
-    init(title: String, remoteURL: URL, photoID: String, dateTaken: Date) {
-        self.title = title
-        self.remoteURL = remoteURL
-        self.photoID = photoID
-        self.dateTaken = dateTaken
     }
 }

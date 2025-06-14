@@ -54,6 +54,20 @@ struct FlickrAPI {
             parameters: ["extras": "url_z,date_taken"]
         )
     }
+
+    static func photos(fromJson data: Data) -> Result<[Photo], Error> {
+        do {
+            let decoder = JSONDecoder()
+            let flickrResponse = try decoder.decode(
+                FlickrResponse.self,
+                from: data
+            )
+
+            return .success(flickrResponse.photosInfo.photos)
+        } catch {
+            return .failure(error)
+        }
+    }
 }
 
 struct FlickrResponse: Codable {

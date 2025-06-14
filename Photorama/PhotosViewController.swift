@@ -35,7 +35,14 @@ class PhotosViewController: UIViewController {
 
         title = "Photorama"
 
-        store.fetchInterestingPhotos()
+        store.fetchInterestingPhotos { photoResult in
+            switch photoResult {
+            case .success(let photos):
+                print("Successfully found \(photos.count) photos.")
+            case .failure(let error):
+                print("Error fetching interesting photos: \(error)")
+            }
+        }
     }
 
 }
