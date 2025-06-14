@@ -57,9 +57,17 @@ struct FlickrAPI {
 }
 
 struct FlickrResponse: Codable {
-    let photos: FlickrPhotosResponse
+    let photosInfo: FlickrPhotosResponse
+
+    enum CodingKeys: String, CodingKey {
+        case photosInfo = "photos"
+    }
 }
 
 struct FlickrPhotosResponse: Codable {
-    let photo: [Photo]
+    let photos: [Photo]
+
+    enum CodingKeys: String, CodingKey {
+        case photos = "photo"
+    }
 }
