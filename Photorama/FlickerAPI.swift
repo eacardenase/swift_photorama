@@ -55,3 +55,11 @@ struct FlickrAPI {
         )
     }
 }
+
+struct FlickrResponse: Codable {
+    let photos: FlickrPhotosResponse
+}
+
+struct FlickrPhotosResponse: Codable {
+    let photo: [Photo]
+}
