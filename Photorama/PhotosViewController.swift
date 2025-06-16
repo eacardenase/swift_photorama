@@ -44,7 +44,8 @@ class PhotosViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "Photorama"
+        navigationItem.title = "Photorama"
+        navigationItem.backButtonTitle = ""
 
         photosCollectionView.dataSource = photoDataSource
         photosCollectionView.delegate = self
