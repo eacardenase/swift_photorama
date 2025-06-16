@@ -13,9 +13,21 @@ class PhotosViewController: UIViewController {
     let photoDataSource = PhotoDataSource()
 
     var photosCollectionView: UICollectionView = {
+        let collectionLayout = UICollectionViewFlowLayout()
+
+        collectionLayout.estimatedItemSize = CGSize(width: 90, height: 90)
+        collectionLayout.minimumLineSpacing = 2
+        collectionLayout.minimumInteritemSpacing = 2
+        collectionLayout.sectionInset = UIEdgeInsets(
+            top: 2,
+            left: 2,
+            bottom: 2,
+            right: 2
+        )
+
         let collectionView = UICollectionView(
             frame: .zero,
-            collectionViewLayout: UICollectionViewFlowLayout()
+            collectionViewLayout: collectionLayout
         )
 
         collectionView.translatesAutoresizingMaskIntoConstraints = false
