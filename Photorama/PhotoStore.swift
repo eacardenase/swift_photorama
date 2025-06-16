@@ -53,7 +53,9 @@ class PhotoStore {
         for photo: Photo,
         completion: @escaping (Result<UIImage, Error>) -> Void
     ) {
-        let photoKey = photo.photoID
+        guard let photoKey = photo.photoID else {
+            fatalError("Photo expected to have a photoID")
+        }
 
         if let image = imageStore.image(forKey: photoKey) {
             OperationQueue.main.addOperation {
