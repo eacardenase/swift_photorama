@@ -26,11 +26,7 @@ class PhotosViewController: UIViewController {
     // MARK: - View Lifecycle
 
     override func loadView() {
-        view = UIView()
-
-        view.backgroundColor = .systemBackground
-
-        setupUI()
+        view = photosCollectionView
     }
 
     override func viewDidLoad() {
@@ -60,26 +56,5 @@ class PhotosViewController: UIViewController {
 
             self.photosCollectionView.reloadSections(IndexSet(integer: 0))
         }
-    }
-}
-
-// MARK: - Helpers
-
-extension PhotosViewController {
-    private func setupUI() {
-        view.addSubview(photosCollectionView)
-
-        NSLayoutConstraint.activate([
-            photosCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
-            photosCollectionView.leadingAnchor.constraint(
-                equalTo: view.leadingAnchor
-            ),
-            photosCollectionView.trailingAnchor.constraint(
-                equalTo: view.trailingAnchor
-            ),
-            photosCollectionView.bottomAnchor.constraint(
-                equalTo: view.bottomAnchor
-            ),
-        ])
     }
 }
