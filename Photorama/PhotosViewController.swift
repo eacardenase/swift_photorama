@@ -69,9 +69,7 @@ extension PhotosViewController {
         store.fetchImage(for: photo) { imageResult in
             switch imageResult {
             case .success(let image):
-                DispatchQueue.main.async {
-                    self.imageView.image = image
-                }
+                self.imageView.image = image
             case .failure(let error):
                 print("Error downloading image: \(error)")
             }

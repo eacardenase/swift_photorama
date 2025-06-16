@@ -28,7 +28,10 @@ class PhotoStore {
         let task = session.dataTask(with: request) { data, response, error in
             let result = self.processPhotosRequest(data: data, error: error)
 
-            completion(result)
+            OperationQueue.main.addOperation {
+                completion(result)
+            }
+
         }
 
         task.resume()
@@ -59,7 +62,9 @@ class PhotoStore {
         let task = session.dataTask(with: request) { data, response, error in
             let result = self.processImageRequest(data: data, error: error)
 
-            completion(result)
+            OperationQueue.main.addOperation {
+                completion(result)
+            }
         }
 
         task.resume()
