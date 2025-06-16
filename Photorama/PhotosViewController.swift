@@ -39,6 +39,10 @@ class PhotosViewController: UIViewController {
             switch photoResult {
             case .success(let photos):
                 print("Successfully found \(photos.count) photos.")
+
+                if let firstPhoto = photos.first {
+                    self.updateImageView(for: firstPhoto)
+                }
             case .failure(let error):
                 print("Error fetching interesting photos: \(error)")
             }
@@ -59,5 +63,18 @@ extension PhotosViewController {
             imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             imageView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
+    }
+
+    func updateImageView(for photo: Photo) {
+        store.fetchImage(for: photo) { imageResult in
+            switch imageResult {
+            case .success(let image):
+                DispatchQueue.main.async {
+                    self.imageView.image = image
+                }
+            case .failure(let error):
+                print("Error downloading image: \(error)")
+            }
+        }
     }
 }
