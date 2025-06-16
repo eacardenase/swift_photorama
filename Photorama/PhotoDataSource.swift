@@ -22,12 +22,18 @@ class PhotoDataSource: NSObject, UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: NSStringFromClass(
-                PhotoCollectionViewCell.self
-            ),
-            for: indexPath
-        )
+        guard
+            let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: NSStringFromClass(
+                    PhotoCollectionViewCell.self
+                ),
+                for: indexPath
+            ) as? PhotoCollectionViewCell
+        else {
+            fatalError("Could not type cast PhotoCollectionViewCell")
+        }
+
+        cell.update(displaying: nil)
 
         return cell
     }
