@@ -77,6 +77,23 @@ class PhotosViewController: UIViewController {
 extension PhotosViewController: UICollectionViewDelegate {
     func collectionView(
         _ collectionView: UICollectionView,
+        didSelectItemAt indexPath: IndexPath
+    ) {
+        let photo = photoDataSource.photos[indexPath.row]
+
+        let photoInfoViewController = PhotoInfoViewController(
+            for: photo,
+            with: store
+        )
+
+        navigationController?.pushViewController(
+            photoInfoViewController,
+            animated: true
+        )
+    }
+
+    func collectionView(
+        _ collectionView: UICollectionView,
         willDisplay cell: UICollectionViewCell,
         forItemAt indexPath: IndexPath
     ) {
