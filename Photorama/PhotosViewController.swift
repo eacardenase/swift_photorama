@@ -10,14 +10,17 @@ import UIKit
 class PhotosViewController: UIViewController {
 
     var store: PhotoStore!
+    let photoDataSource = PhotoDataSource()
 
-    private var imageView: UIImageView = {
-        let imageView = UIImageView()
+    var photosCollectionView: UICollectionView = {
+        let collectionView = UICollectionView(
+            frame: .zero,
+            collectionViewLayout: UICollectionViewFlowLayout()
+        )
 
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFill
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
 
-        return imageView
+        return collectionView
     }()
 
     // MARK: - View Lifecycle
@@ -35,44 +38,48 @@ class PhotosViewController: UIViewController {
 
         title = "Photorama"
 
+        photosCollectionView.dataSource = photoDataSource
+        photosCollectionView.register(
+            PhotoCollectionViewCell.self,
+            forCellWithReuseIdentifier: NSStringFromClass(
+                PhotoCollectionViewCell.self
+            )
+        )
+
         store.fetchInterestingPhotos { photoResult in
             switch photoResult {
             case .success(let photos):
                 print("Successfully found \(photos.count) photos.")
 
-                if let firstPhoto = photos.first {
-                    self.updateImageView(for: firstPhoto)
-                }
+                self.photoDataSource.photos = photos
             case .failure(let error):
                 print("Error fetching interesting photos: \(error)")
+
+                self.photoDataSource.photos.removeAll()
             }
+
+            self.photosCollectionView.reloadSections(IndexSet(integer: 0))
         }
     }
-
 }
 
 // MARK: - Helpers
 
 extension PhotosViewController {
     private func setupUI() {
-        view.addSubview(imageView)
+        view.addSubview(photosCollectionView)
 
         NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: view.topAnchor),
-            imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            imageView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            photosCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            photosCollectionView.leadingAnchor.constraint(
+                equalTo: view.leadingAnchor
+            ),
+            photosCollectionView.trailingAnchor.constraint(
+                equalTo: view.trailingAnchor
+            ),
+            photosCollectionView.bottomAnchor.constraint(
+                equalTo: view.bottomAnchor
+            ),
         ])
-    }
-
-    func updateImageView(for photo: Photo) {
-        store.fetchImage(for: photo) { imageResult in
-            switch imageResult {
-            case .success(let image):
-                self.imageView.image = image
-            case .failure(let error):
-                print("Error downloading image: \(error)")
-            }
-        }
     }
 }
