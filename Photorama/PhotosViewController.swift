@@ -15,7 +15,7 @@ class PhotosViewController: UIViewController {
     var photosCollectionView: UICollectionView = {
         let collectionLayout = UICollectionViewFlowLayout()
 
-        collectionLayout.estimatedItemSize = CGSize(width: 90, height: 90)
+        collectionLayout.itemSize = CGSize(width: 90, height: 90)
         collectionLayout.minimumLineSpacing = 2
         collectionLayout.minimumInteritemSpacing = 2
         collectionLayout.sectionInset = UIEdgeInsets(
