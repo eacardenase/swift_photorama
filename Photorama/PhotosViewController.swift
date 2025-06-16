@@ -47,6 +47,7 @@ class PhotosViewController: UIViewController {
         title = "Photorama"
 
         photosCollectionView.dataSource = photoDataSource
+        photosCollectionView.delegate = self
         photosCollectionView.register(
             PhotoCollectionViewCell.self,
             forCellWithReuseIdentifier: NSStringFromClass(
@@ -67,6 +68,36 @@ class PhotosViewController: UIViewController {
             }
 
             self.photosCollectionView.reloadSections(IndexSet(integer: 0))
+        }
+    }
+}
+
+// MARK: -  UICollectionViewDelegate
+
+extension PhotosViewController: UICollectionViewDelegate {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        willDisplay cell: UICollectionViewCell,
+        forItemAt indexPath: IndexPath
+    ) {
+        let photo = photoDataSource.photos[indexPath.row]
+
+        store.fetchImage(for: photo) { imageResult in
+            guard
+                let photoIndex = self.photoDataSource.photos.firstIndex(
+                    of: photo
+                ), case .success(let image) = imageResult
+            else {
+                return
+            }
+
+            let photoIndexPath = IndexPath(item: photoIndex, section: 0)
+
+            if let cell = collectionView.cellForItem(at: photoIndexPath)
+                as? PhotoCollectionViewCell
+            {
+                cell.update(displaying: image)
+            }
         }
     }
 }

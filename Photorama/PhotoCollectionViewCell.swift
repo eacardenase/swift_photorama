@@ -13,7 +13,7 @@ class PhotoCollectionViewCell: UICollectionViewCell {
         let imageView = UIImageView()
 
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleToFill
 
         return imageView
     }()
