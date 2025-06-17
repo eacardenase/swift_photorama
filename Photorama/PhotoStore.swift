@@ -5,6 +5,7 @@
 //  Created by Edwin Cardenas on 6/14/25.
 //
 
+import CoreData
 import UIKit
 
 enum PhotoError: Error {
@@ -15,6 +16,18 @@ enum PhotoError: Error {
 class PhotoStore {
 
     let imageStore = ImageStore()
+
+    let persistentContainer: NSPersistentContainer = {
+        let container = NSPersistentContainer(name: "Photorama")
+
+        container.loadPersistentStores { description, error in
+            if let error = error {
+                print("Error setting up Core Data (\(error)).")
+            }
+        }
+
+        return container
+    }()
 
     private let session: URLSession = {
         let config = URLSessionConfiguration.default
