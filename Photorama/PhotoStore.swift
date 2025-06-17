@@ -59,7 +59,29 @@ class PhotoStore {
             return .failure(error!)
         }
 
-        return FlickrAPI.photos(fromJson: jsonData)
+        let context = persistentContainer.viewContext
+
+        switch FlickrAPI.photos(fromJson: jsonData) {
+        case let .success(flickrPhotos):
+            let photos = flickrPhotos.map { flickrPhoto -> Photo in
+                var photo: Photo!
+
+                context.performAndWait {
+                    photo = Photo(context: context)
+
+                    photo.title = flickrPhoto.title
+                    photo.photoID = flickrPhoto.photoID
+                    photo.remoteURL = flickrPhoto.remoteURL
+                    photo.dateTaken = flickrPhoto.dateTaken
+                }
+
+                return photo
+            }
+
+            return .success(photos)
+        case let .failure(error):
+            return .failure(error)
+        }
     }
 
     func fetchImage(
