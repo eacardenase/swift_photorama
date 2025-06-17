@@ -57,18 +57,7 @@ class PhotosViewController: UIViewController {
         )
 
         store.fetchInterestingPhotos { photoResult in
-            switch photoResult {
-            case .success(let photos):
-                print("Successfully found \(photos.count) photos.")
-
-                self.photoDataSource.photos = photos
-            case .failure(let error):
-                print("Error fetching interesting photos: \(error)")
-
-                self.photoDataSource.photos.removeAll()
-            }
-
-            self.photosCollectionView.reloadSections(IndexSet(integer: 0))
+            self.updateDataSource()
         }
     }
 }
@@ -116,6 +105,23 @@ extension PhotosViewController: UICollectionViewDelegate {
             {
                 cell.update(displaying: image)
             }
+        }
+    }
+}
+
+// MARK: - Helpers
+
+extension PhotosViewController {
+    private func updateDataSource() {
+        store.fetchAllPhotos { photosResult in
+            switch photosResult {
+            case let .success(photos):
+                self.photoDataSource.photos = photos
+            case .failure:
+                self.photoDataSource.photos.removeAll()
+            }
+
+            self.photosCollectionView.reloadSections(IndexSet(integer: 0))
         }
     }
 }
