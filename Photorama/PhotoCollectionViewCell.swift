@@ -13,7 +13,8 @@ class PhotoCollectionViewCell: UICollectionViewCell {
         let imageView = UIImageView()
 
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleToFill
+        imageView.contentMode = .scaleAspectFill
+        imageView.layer.masksToBounds = true
 
         return imageView
     }()
@@ -53,10 +54,10 @@ extension PhotoCollectionViewCell {
 
         // photoImageView
         NSLayoutConstraint.activate([
-            photoImageView.topAnchor.constraint(equalTo: topAnchor),
-            photoImageView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            photoImageView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            photoImageView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            photoImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            photoImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            photoImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            photoImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
         ])
 
         // spinner
