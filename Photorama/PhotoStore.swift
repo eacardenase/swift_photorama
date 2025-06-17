@@ -41,7 +41,15 @@ class PhotoStore {
         let url = FlickrAPI.interestingPhotosURL
         let request = URLRequest(url: url)
         let task = session.dataTask(with: request) { data, response, error in
-            let result = self.processPhotosRequest(data: data, error: error)
+            var result = self.processPhotosRequest(data: data, error: error)
+
+            if case .success = result {
+                do {
+                    try self.persistentContainer.viewContext.save()
+                } catch {
+                    result = .failure(error)
+                }
+            }
 
             OperationQueue.main.addOperation {
                 completion(result)
