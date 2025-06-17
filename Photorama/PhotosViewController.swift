@@ -47,6 +47,8 @@ class PhotosViewController: UIViewController {
         navigationItem.title = "Photorama"
         navigationItem.backButtonTitle = ""
 
+        updateDataSource()
+
         photosCollectionView.dataSource = photoDataSource
         photosCollectionView.delegate = self
         photosCollectionView.register(
