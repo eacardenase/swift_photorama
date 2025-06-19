@@ -59,6 +59,7 @@ class PhotoInfoViewController: UIViewController {
         ]
 
         navigationController?.isToolbarHidden = false
+        navigationItem.backButtonTitle = ""
 
         store.fetchImage(for: photo) { result in
             switch result {
@@ -100,6 +101,13 @@ extension PhotoInfoViewController {
 
 extension PhotoInfoViewController {
     @objc func showTags(_ sender: UIBarButtonItem) {
-        print(#function)
+        let tagsViewController = TagsViewController(for: photo, with: store)
+
+        tagsViewController.modalPresentationStyle = .popover
+
+        navigationController?.pushViewController(
+            tagsViewController,
+            animated: true
+        )
     }
 }
