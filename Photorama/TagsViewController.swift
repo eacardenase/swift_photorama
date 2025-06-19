@@ -12,8 +12,9 @@ class TagsViewController: UITableViewController {
 
     let photo: Photo
     let store: PhotoStore
-    
+
     var selectedIndexPaths = [IndexPath]()
+    let tagDataSource = TagDataSource()
 
     // MARK: - Initializers
 
@@ -34,5 +35,82 @@ class TagsViewController: UITableViewController {
         super.viewDidLoad()
 
         title = "Tags"
+
+        tableView.dataSource = tagDataSource
+        tableView.delegate = self
+
+        updateTags()
+    }
+}
+
+// MARK: - Helpers
+
+extension TagsViewController {
+
+    private func updateTags() {
+        store.fetchAllTags { result in
+            switch result {
+            case let .success(tags):
+                self.tagDataSource.tags = tags
+
+                guard let photoTags = self.photo.tags as? Set<Tag> else {
+                    return
+                }
+
+                for tag in photoTags {
+                    if let index = self.tagDataSource.tags.firstIndex(of: tag) {
+                        let indexPath = IndexPath(row: index, section: 0)
+
+                        self.selectedIndexPaths.append(indexPath)
+                    }
+                }
+            case let .failure(error):
+                print("Error fetching tags: \(error)")
+            }
+        }
+
+        self.tableView.reloadSections(IndexSet(integer: 0), with: .fade)
+    }
+}
+
+// MARK: - UITableViewDelegate
+
+extension TagsViewController {
+
+    override func tableView(
+        _ tableView: UITableView,
+        didSelectRowAt indexPath: IndexPath
+    ) {
+        let tag = tagDataSource.tags[indexPath.row]
+
+        if let index = selectedIndexPaths.firstIndex(of: indexPath) {
+            selectedIndexPaths.remove(at: index)
+
+            photo.removeFromTags(tag)
+        } else {
+            selectedIndexPaths.append(indexPath)
+
+            photo.addToTags(tag)
+        }
+
+        do {
+            try store.persistentContainer.viewContext.save()
+        } catch {
+            print("Core Data save failed: \(error)")
+        }
+
+        tableView.reloadRows(at: [indexPath], with: .fade)
+    }
+
+    override func tableView(
+        _ tableView: UITableView,
+        willDisplay cell: UITableViewCell,
+        forRowAt indexPath: IndexPath
+    ) {
+        if selectedIndexPaths.firstIndex(of: indexPath) != nil {
+            cell.accessoryType = .checkmark
+        } else {
+            cell.accessoryType = .none
+        }
     }
 }
