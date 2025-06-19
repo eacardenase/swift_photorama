@@ -49,6 +49,17 @@ class PhotoInfoViewController: UIViewController {
 
         title = photo.title
 
+        toolbarItems = [
+            UIBarButtonItem(
+                title: "Tags",
+                style: .plain,
+                target: self,
+                action: #selector(showTags)
+            )
+        ]
+
+        navigationController?.isToolbarHidden = false
+
         store.fetchImage(for: photo) { result in
             switch result {
             case let .success(image):
@@ -82,5 +93,13 @@ extension PhotoInfoViewController {
                 equalTo: view.safeAreaLayoutGuide.bottomAnchor
             ),
         ])
+    }
+}
+
+// MARK: - Actions
+
+extension PhotoInfoViewController {
+    @objc func showTags(_ sender: UIBarButtonItem) {
+        print(#function)
     }
 }
