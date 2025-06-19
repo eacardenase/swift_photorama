@@ -46,10 +46,18 @@ class TagsViewController: UITableViewController {
             action: #selector(addNewTag)
         )
 
+        updateTags()
+
         tableView.dataSource = tagDataSource
         tableView.delegate = self
+        tableView.register(
+            UITableViewCell.self,
+            forCellReuseIdentifier: NSStringFromClass(UITableViewCell.self)
+        )
 
-        updateTags()
+        store.fetchAllTags { result in
+            self.updateTags()
+        }
     }
 }
 

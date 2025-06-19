@@ -32,6 +32,7 @@ class TagDataSource: NSObject, UITableViewDataSource {
         content.text = tag.name
 
         cell.contentConfiguration = content
+        cell.selectionStyle = .none
 
         return cell
     }
