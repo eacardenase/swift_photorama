@@ -35,6 +35,16 @@ class TagsViewController: UITableViewController {
         super.viewDidLoad()
 
         title = "Tags"
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .done,
+            target: self,
+            action: #selector(done)
+        )
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .add,
+            target: self,
+            action: #selector(addNewTag)
+        )
 
         tableView.dataSource = tagDataSource
         tableView.delegate = self
@@ -112,5 +122,18 @@ extension TagsViewController {
         } else {
             cell.accessoryType = .none
         }
+    }
+}
+
+// MARK: - Actions
+
+extension TagsViewController {
+
+    @objc func done(_ sender: UIBarButtonItem) {
+        print(#function)
+    }
+
+    @objc func addNewTag(_ sender: UIBarButtonItem) {
+        print(#function)
     }
 }

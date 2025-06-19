@@ -103,11 +103,10 @@ extension PhotoInfoViewController {
     @objc func showTags(_ sender: UIBarButtonItem) {
         let tagsViewController = TagsViewController(for: photo, with: store)
 
-        tagsViewController.modalPresentationStyle = .popover
-
-        navigationController?.pushViewController(
-            tagsViewController,
-            animated: true
+        let navViewController = UINavigationController(
+            rootViewController: tagsViewController
         )
+
+        present(navViewController, animated: true)
     }
 }
