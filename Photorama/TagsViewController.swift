@@ -46,8 +46,6 @@ class TagsViewController: UITableViewController {
             action: #selector(addNewTag)
         )
 
-        updateTags()
-
         tableView.dataSource = tagDataSource
         tableView.delegate = self
         tableView.register(
@@ -55,9 +53,7 @@ class TagsViewController: UITableViewController {
             forCellReuseIdentifier: NSStringFromClass(UITableViewCell.self)
         )
 
-        store.fetchAllTags { result in
-            self.updateTags()
-        }
+        updateTags()
     }
 }
 
@@ -87,7 +83,12 @@ extension TagsViewController {
             }
         }
 
-        self.tableView.reloadSections(IndexSet(integer: 0), with: .fade)
+        OperationQueue.main.addOperation {
+            self.tableView.reloadSections(
+                IndexSet(integer: 0),
+                with: .automatic
+            )
+        }
     }
 }
 
