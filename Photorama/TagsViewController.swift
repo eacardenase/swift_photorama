@@ -130,10 +130,29 @@ extension TagsViewController {
 extension TagsViewController {
 
     @objc func done(_ sender: UIBarButtonItem) {
-        print(#function)
+        presentingViewController?.dismiss(animated: true)
     }
 
     @objc func addNewTag(_ sender: UIBarButtonItem) {
-        print(#function)
+        let alertController = UIAlertController(
+            title: "Add tag",
+            message: nil,
+            preferredStyle: .alert
+        )
+
+        alertController.addTextField { textField in
+            textField.placeholder = "Tag name"
+            textField.autocapitalizationType = .words
+        }
+
+        let okAction = UIAlertAction(title: "OK", style: .default) { action in
+            //
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+
+        alertController.addAction(okAction)
+        alertController.addAction(cancelAction)
+
+        present(alertController, animated: true)
     }
 }
