@@ -146,7 +146,20 @@ extension TagsViewController {
         }
 
         let okAction = UIAlertAction(title: "OK", style: .default) { action in
-            //
+            if let tagName = alertController.textFields?.first?.text {
+                let context = self.store.persistentContainer.viewContext
+                let newTag = Tag(context: context)
+
+                newTag.name = tagName
+
+                do {
+                    try context.save()
+                } catch {
+                    print("Core Data save failed: \(error)")
+                }
+
+                self.updateTags()
+            }
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
 
