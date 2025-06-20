@@ -33,6 +33,9 @@ class PhotoDataSource: NSObject, UICollectionViewDataSource {
             fatalError("Could not type cast PhotoCollectionViewCell")
         }
 
+        let photo = photos[indexPath.row]
+
+        cell.photoDescription = photo.title
         cell.update(displaying: nil)
 
         return cell

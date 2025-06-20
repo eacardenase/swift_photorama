@@ -12,11 +12,15 @@ class PhotoInfoViewController: UIViewController {
     let photo: Photo
     let store: PhotoStore
 
-    let photoImageView: UIImageView = {
+    lazy var photoImageView: UIImageView = {
         let imageView = UIImageView()
 
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
+        imageView.accessibilityTraits = [.image]
+        imageView.isUserInteractionEnabled = false
+        imageView.isAccessibilityElement = true
+        imageView.accessibilityLabel = photo.title
 
         return imageView
     }()

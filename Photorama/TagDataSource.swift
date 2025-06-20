@@ -33,6 +33,9 @@ class TagDataSource: NSObject, UITableViewDataSource {
 
         cell.contentConfiguration = content
         cell.selectionStyle = .none
+        
+        cell.accessibilityHint = "Toggles selection"
+        cell.accessibilityTraits = [.button]
 
         return cell
     }

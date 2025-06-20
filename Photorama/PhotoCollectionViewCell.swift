@@ -30,6 +30,37 @@ class PhotoCollectionViewCell: UICollectionViewCell {
         return activityIndicator
     }()
 
+    var photoDescription: String?
+
+    // MARK: - Accessibility
+
+    override var isAccessibilityElement: Bool {
+        get {
+            return true
+        }
+        set {
+            // Ignore attemps to set
+        }
+    }
+
+    override var accessibilityLabel: String? {
+        get {
+            return photoDescription
+        }
+        set {
+            // Ignore attemps to set
+        }
+    }
+
+    override var accessibilityTraits: UIAccessibilityTraits {
+        get {
+            return super.accessibilityTraits.union([.image, .button])
+        }
+        set {
+            // Ignore attemps to set
+        }
+    }
+
     // MARK: - View Lifecycle
 
     override init(frame: CGRect) {
@@ -55,9 +86,15 @@ extension PhotoCollectionViewCell {
         // photoImageView
         NSLayoutConstraint.activate([
             photoImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            photoImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            photoImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            photoImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            photoImageView.leadingAnchor.constraint(
+                equalTo: contentView.leadingAnchor
+            ),
+            photoImageView.trailingAnchor.constraint(
+                equalTo: contentView.trailingAnchor
+            ),
+            photoImageView.bottomAnchor.constraint(
+                equalTo: contentView.bottomAnchor
+            ),
         ])
 
         // spinner
